@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os.path
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mc_donalds',
+    'board',
+
 ]
 
 MIDDLEWARE = [
@@ -55,7 +57,7 @@ ROOT_URLCONF = 'd5.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -123,14 +125,21 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CELERY_BROKER_URL = 'redis://:wYQlqcyrVzxEdIaaOvZXQmiprwIQle09@redis-18200.c10.us-east-1-4.ec2.cloud.redislabs.com:18200/0'
-# CELERY_RESULT_BACKEND = 'redis://:wYQlqcyrVzxEdIaaOvZXQmiprwIQle09@redis-18200.c10.us-east-1-4.ec2.cloud.redislabs.com:18200/0'
-# CELERY_ACCEPT_CONTENT = ['application/json']
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
+# APSCHEDULER SETTINGS
+# формат даты, которую будет воспринимать наш задачник (вспоминаем модуль по фильтрам)
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+# если задача не выполняется за 25 секунд, то она автоматически снимается
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
+
+CELERY_BROKER_URL = 'redis://:wYQlqcyrVzxEdIaaOvZXQmiprwIQle09@redis-18200.c10.us-east-1-4.ec2.cloud.redislabs.com:18200/0'
+CELERY_RESULT_BACKEND = 'redis://:wYQlqcyrVzxEdIaaOvZXQmiprwIQle09@redis-18200.c10.us-east-1-4.ec2.cloud.redislabs.com:18200/0'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+# CELERY_BROKER_URL = 'redis://:wYQlqcyrVzxEdIaaOvZXQmiprwIQle09@redis-18200.c10.us-east-1-4.ec2.cloud.redislabs.com:18200'
+# CELERY_RESULT_BACKEND = 'redis://:wYQlqcyrVzxEdIaaOvZXQmiprwIQle09@redis-18200.c10.us-east-1-4.ec2.cloud.redislabs.com:18200'
+# CELERY_ACCEPT_CONTENT = ['application/json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
